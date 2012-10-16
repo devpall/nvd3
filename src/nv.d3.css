@@ -291,8 +291,19 @@ svg .title {
 }
 
 .nvd3.nv-pie .nv-label rect {
+  fill: #fff;
   fill-opacity: 0;
+  stroke: #fff;
   stroke-opacity: 0;
+}
+
+.nvd3.nv-pie .nv-label text {
+  fill: #000;
+  text-anchor: middle;
+}
+
+.nvd3.nv-pie .nv-label-empty {
+  display: none;
 }
 
 /**********

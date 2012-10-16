@@ -145,6 +145,10 @@ nv.models.pie = function() {
             .each(function(d, i) {
               var group = d3.select(this);
 
+              if (!displayLabel(d, labelThreshold)) {
+                group.classed('nv-label-empty', true);
+              }
+
               group
                 .attr('transform', function(d) {
                    d.outerRadius = radius + 10; // Set Outer Coordinate
@@ -153,15 +157,10 @@ nv.models.pie = function() {
                 });
 
               group.append('rect')
-                  .style('stroke', '#fff')
-                  .style('fill', '#fff')
                   .attr("rx", 3)
                   .attr("ry", 3);
 
               group.append('text')
-                  .style('text-anchor', 'middle') //center the text on it's origin
-                  .style('fill', '#000')
-
 
           });
 
@@ -178,8 +177,7 @@ nv.models.pie = function() {
             slice
               .select(".nv-label text")
                 .text(function(d, i) {
-                  var percent = (d.endAngle - d.startAngle) / (2 * Math.PI);
-                  return (d.value && percent > labelThreshold) ? getX(d.data) : '';
+                  return (displayLabel(d, labelThreshold)) ? getX(d.data) : '';
                 });
 
             var textBox = slice.select('text').node().getBBox();
@@ -214,6 +212,11 @@ nv.models.pie = function() {
           return function(t) {
               return arc(i(t));
           };
+        }
+
+        function displayLabel(d, threshold) {
+          var percent = (d.endAngle - d.startAngle) / (2 * Math.PI);
+          return d.value && percent > threshold;
         }
 
     });
